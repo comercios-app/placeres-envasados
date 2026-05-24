@@ -2,6 +2,10 @@ import empanadasImg from "../assets/empanadas.webp"
 import hamburguesaImg from "../assets/hamburguesa.jpg"
 import lomitoImg from "../assets/lomito.jpg"
 import sanguchesImg from "../assets/sandwich-miga.webp"
+import humitaChalaImg from "../assets/humita-chala.jpg"
+import locroImg from "../assets/locro.jpg"
+import pizzaEspecialImg from "../assets/pizza-especial.png"
+import pizzaMuzarellaImg from "../assets/pizza-muzarella.png"
 
 export const productos = [
   {
@@ -20,8 +24,8 @@ export const productos = [
   },
   {
     id: 3,
-    nombre: "Empanadas x12",
-    precio: 10000,
+    nombre: "Empanadas Salteñas x12",
+    precio: 15000,
     categoria: "Empanadas",
     imagen: empanadasImg,
   },
@@ -52,5 +56,54 @@ export const productos = [
     precio: 2400,
     categoria: "Sanguches de Miga",
     imagen: sanguchesImg,
+  },
+  {
+    id: 8,
+    nombre: "Sanguche de Milanesa",
+    precio: 13000,
+    categoria: "Sanguches",
+    imagen: sanguchesImg,
+  },
+  {
+    id: 9,
+    nombre: "Pizza Especial",
+    precio: 15000,
+    categoria: "Pizzas",
+    imagen: pizzaEspecialImg,
+  },
+  {
+    id: 10,
+    nombre: "Pizza Muzarella",
+    precio: 12000,
+    categoria: "Pizzas",
+    imagen: pizzaMuzarellaImg,
+  },
+  {
+    id: 11,
+    nombre: "Empanadas Árabes x12",
+    precio: 15000,
+    categoria: "Empanadas",
+    imagen: empanadasImg,
+  },
+  {
+    id: 12,
+    nombre: "Empanadas de Pollo x12",
+    precio: 15000,
+    categoria: "Empanadas",
+    imagen: empanadasImg,
+  },
+  {
+    id: 13,
+    nombre: "Humita en Chala",
+    precio: 7000,
+    categoria: "Humitas",
+    imagen: humitaChalaImg,
+  },
+  {
+    id: 14,
+    nombre: "Porción de Locro",
+    precio: 10000,
+    categoria: "Guisos",
+    imagen: locroImg,
   },
 ]
