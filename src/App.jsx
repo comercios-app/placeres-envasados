@@ -3,6 +3,7 @@ import { useMemo, useRef, useState } from "react"
 import Cart from "./components/Cart"
 import ProductCard from "./components/ProductCard"
 import { productos } from "./data/productos"
+import lomitoImg from "./assets/lomito.jpg"
 
 function App() {
   const [cart, setCart] = useState([])
@@ -11,10 +12,12 @@ function App() {
   const cartRef = useRef(null)
   const notificationTimeoutRef = useRef(null)
 
-  const categorias = useMemo(
-    () => Array.from(new Set(productos.map((producto) => producto.categoria))),
-    []
-  )
+  const categorias = useMemo(() => {
+    const uniqueCategories = Array.from(new Set(productos.map((producto) => producto.categoria)))
+    const prioritized = ["Sanguches de Miga"]
+    const rest = uniqueCategories.filter((categoria) => !prioritized.includes(categoria))
+    return [...prioritized.filter((categoria) => uniqueCategories.includes(categoria)), ...rest]
+  }, [])
 
   const filteredProducts = useMemo(() => {
     if (!selectedCategory) return []
@@ -123,16 +126,20 @@ function App() {
                     className="group relative overflow-hidden rounded-[2rem] border border-zinc-700 bg-zinc-800 text-left shadow-lg transition hover:-translate-y-1 hover:border-orange-500"
                   >
                     <img
-                      src={categoryProduct?.imagen}
+                      src={
+                        categoria === "Sanguches"
+                          ? lomitoImg
+                          : categoryProduct?.imagen
+                      }
                       alt={categoria}
-                      className="h-48 w-full object-cover transition duration-500 group-hover:scale-105"
+                      className="h-40 w-full object-cover transition duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-transparent to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="absolute bottom-0 left-0 right-0 p-5">
                       <span className="text-xs uppercase tracking-[0.4em] text-orange-400">
                         Categoría
                       </span>
-                      <h2 className="mt-2 text-2xl font-bold text-white">
+                      <h2 className="mt-2 text-xl font-bold text-white">
                         {categoria}
                       </h2>
                     </div>
