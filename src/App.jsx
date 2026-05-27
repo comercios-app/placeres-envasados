@@ -5,12 +5,21 @@ import ProductCard from "./components/ProductCard"
 import { productos } from "./data/productos"
 import lomitoImg from "./assets/lomito.jpg"
 
+// const WHATSAPP_NUMBER = "5493513200735" // Activar al publicar la recepción de pedidos.
+
 function App() {
   const [cart, setCart] = useState([])
+  const [orderNotes, setOrderNotes] = useState("")
+  const [deliveryMethod, setDeliveryMethod] = useState("Retiro en el local")
+  const [deliveryAddress, setDeliveryAddress] = useState("")
+  const [paymentMethod, setPaymentMethod] = useState("Efectivo")
+  const [cashAmount, setCashAmount] = useState("")
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [showCartNotifier, setShowCartNotifier] = useState(false)
+  const [shareFeedback, setShareFeedback] = useState("")
   const cartRef = useRef(null)
   const notificationTimeoutRef = useRef(null)
+  const shareFeedbackTimeoutRef = useRef(null)
 
   const categorias = useMemo(() => {
     const uniqueCategories = Array.from(new Set(productos.map((producto) => producto.categoria)))
@@ -67,7 +76,14 @@ function App() {
     )
   }
 
-  const clearCart = () => setCart([])
+  const clearCart = () => {
+    setCart([])
+    setOrderNotes("")
+    setDeliveryMethod("Retiro en el local")
+    setDeliveryAddress("")
+    setPaymentMethod("Efectivo")
+    setCashAmount("")
+  }
 
   const total = cart.reduce(
     (sum, item) => sum + item.precio * item.cantidad,
@@ -84,11 +100,25 @@ function App() {
   const handleSendWhatsApp = () => {
     if (cart.length === 0) return
 
+    const notes = orderNotes.trim()
+    const address = deliveryAddress.trim()
+    const cashPayment = cashAmount.trim()
+    const isDelivery = deliveryMethod === "Envío a domicilio"
+
+    if (isDelivery && !address) return
+
     const message = [
       "Hola! Quisiera hacer un pedido:",
       ...cart.map(
         (item) => `${item.cantidad} x ${item.nombre} - $${item.precio * item.cantidad}`
       ),
+      "",
+      `Entrega: ${deliveryMethod}`,
+      ...(isDelivery ? [`Dirección: ${address}`, "Costo de envío: a confirmar"] : []),
+      `Forma de pago: ${paymentMethod}`,
+      ...(paymentMethod === "Efectivo" && cashPayment ? [`Abono con: $${cashPayment}`] : []),
+      ...(notes ? [`Aclaraciones: ${notes}`] : []),
+      "",
       `Total: $${total}`,
       "Gracias!"
     ].join("\n")
@@ -97,10 +127,68 @@ function App() {
     window.open(`https://wa.me/?text=${encodedMessage}`, "_blank")
   }
 
+  const showShareFeedback = (message) => {
+    setShareFeedback(message)
+    if (shareFeedbackTimeoutRef.current) {
+      clearTimeout(shareFeedbackTimeoutRef.current)
+    }
+    shareFeedbackTimeoutRef.current = setTimeout(() => {
+      setShareFeedback("")
+    }, 2500)
+  }
+
+  const handleShare = async () => {
+    const shareData = {
+      title: "Doña Carmen",
+      text: "Mirá el menú de Doña Carmen",
+      url: window.location.href,
+    }
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData)
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          showShareFeedback("No se pudo compartir el enlace")
+        }
+      }
+      return
+    }
+
+    try {
+      await navigator.clipboard.writeText(shareData.url)
+      showShareFeedback("Enlace copiado")
+    } catch {
+      showShareFeedback("No se pudo copiar el enlace")
+    }
+  }
+
   return (
     <div className="min-h-screen bg-zinc-900 p-6">
       <div className="max-w-7xl mx-auto">
-        <header className="text-center mb-8">
+        <header className="relative mb-8 pt-14 text-center sm:pt-0">
+          <button
+            type="button"
+            onClick={handleShare}
+            aria-label="Compartir este menú"
+            className="absolute right-0 top-0 inline-flex h-11 w-11 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-zinc-100 shadow-lg transition hover:border-orange-500 hover:bg-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-5 w-5"
+            >
+              <circle cx="18" cy="5" r="3" />
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="19" r="3" />
+              <path d="m8.7 10.7 6.6-4.1M8.7 13.3l6.6 4.1" />
+            </svg>
+          </button>
           <div className="inline-flex flex-col items-center gap-3">
             <h1 className="text-4xl font-bold text-white">
               Doña Carmen
@@ -109,6 +197,14 @@ function App() {
               Pedidos rápidos y caseros para disfrutar lo mejor de la cocina de Doña Carmen, directo a tu mesa con WhatsApp.
             </p>
           </div>
+          {shareFeedback && (
+            <p
+              role="status"
+              className="fixed right-6 top-20 z-50 rounded-full bg-zinc-800 px-3 py-2 text-xs font-medium text-white shadow-lg"
+            >
+              {shareFeedback}
+            </p>
+          )}
         </header>
 
         <div className="mb-8">
@@ -192,6 +288,16 @@ function App() {
               onUpdateQuantity={updateQuantity}
               onClear={clearCart}
               total={total}
+              orderNotes={orderNotes}
+              onOrderNotesChange={setOrderNotes}
+              deliveryMethod={deliveryMethod}
+              onDeliveryMethodChange={setDeliveryMethod}
+              deliveryAddress={deliveryAddress}
+              onDeliveryAddressChange={setDeliveryAddress}
+              paymentMethod={paymentMethod}
+              onPaymentMethodChange={setPaymentMethod}
+              cashAmount={cashAmount}
+              onCashAmountChange={setCashAmount}
               onSendWhatsApp={handleSendWhatsApp}
             />
           </div>

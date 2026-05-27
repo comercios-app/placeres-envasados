@@ -1,4 +1,24 @@
-function Cart({ cartItems, onRemove, onUpdateQuantity, onClear, total, onSendWhatsApp }) {
+function Cart({
+  cartItems,
+  onRemove,
+  onUpdateQuantity,
+  onClear,
+  total,
+  orderNotes,
+  onOrderNotesChange,
+  deliveryMethod,
+  onDeliveryMethodChange,
+  deliveryAddress,
+  onDeliveryAddressChange,
+  paymentMethod,
+  onPaymentMethodChange,
+  cashAmount,
+  onCashAmountChange,
+  onSendWhatsApp,
+}) {
+  const requiresAddress = deliveryMethod === "Envío a domicilio"
+  const missingAddress = requiresAddress && !deliveryAddress.trim()
+
   return (
     <div className="bg-zinc-800 rounded-3xl p-6 shadow-xl border border-zinc-700 sticky top-6">
       <div className="flex items-center justify-between mb-6">
@@ -69,14 +89,98 @@ function Cart({ cartItems, onRemove, onUpdateQuantity, onClear, total, onSendWha
           <span>Total</span>
           <span className="text-xl font-bold text-white">${total}</span>
         </div>
+        <label htmlFor="delivery-method" className="mb-4 block">
+          <span className="mb-2 block text-sm font-medium text-zinc-200">
+            Entrega:
+          </span>
+          <select
+            id="delivery-method"
+            value={deliveryMethod}
+            onChange={(event) => onDeliveryMethodChange(event.target.value)}
+            className="w-full rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-white focus:border-orange-400 focus:outline-none"
+          >
+            <option>Retiro en el local</option>
+            <option>Envío a domicilio</option>
+          </select>
+        </label>
+        {requiresAddress && (
+          <div className="mb-4">
+            <label htmlFor="delivery-address" className="block">
+              <span className="mb-2 block text-sm font-medium text-zinc-200">
+                Dirección:
+              </span>
+              <input
+                id="delivery-address"
+                type="text"
+                value={deliveryAddress}
+                onChange={(event) => onDeliveryAddressChange(event.target.value)}
+                placeholder="Ej: Av. Colón 1234, barrio..."
+                required
+                className="w-full rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-500 focus:border-orange-400 focus:outline-none"
+              />
+            </label>
+            <p className="mt-2 text-xs text-zinc-400">
+              El costo de envío se confirma por WhatsApp.
+            </p>
+          </div>
+        )}
+        <label htmlFor="payment-method" className="mb-4 block">
+          <span className="mb-2 block text-sm font-medium text-zinc-200">
+            Forma de pago:
+          </span>
+          <select
+            id="payment-method"
+            value={paymentMethod}
+            onChange={(event) => onPaymentMethodChange(event.target.value)}
+            className="w-full rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-white focus:border-orange-400 focus:outline-none"
+          >
+            <option>Efectivo</option>
+            <option>Transferencia</option>
+          </select>
+        </label>
+        {paymentMethod === "Efectivo" && (
+          <label htmlFor="cash-amount" className="mb-4 block">
+            <span className="mb-2 block text-sm font-medium text-zinc-200">
+              ¿Con cuánto abona? <span className="text-zinc-400">(opcional)</span>
+            </span>
+            <input
+              id="cash-amount"
+              type="number"
+              min="0"
+              inputMode="numeric"
+              value={cashAmount}
+              onChange={(event) => onCashAmountChange(event.target.value)}
+              placeholder="Ej: 20000"
+              className="w-full rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-500 focus:border-orange-400 focus:outline-none"
+            />
+          </label>
+        )}
+        <label htmlFor="order-notes" className="mb-4 block">
+          <span className="mb-2 block text-sm font-medium text-zinc-200">
+            Aclaraciones:
+          </span>
+          <textarea
+            id="order-notes"
+            value={orderNotes}
+            onChange={(event) => onOrderNotesChange(event.target.value)}
+            placeholder="Ej: sin mayonesa, agregar cebolla..."
+            rows={3}
+            className="w-full resize-none rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-500 focus:border-orange-400 focus:outline-none"
+          />
+        </label>
         <button
           onClick={onSendWhatsApp}
-          disabled={cartItems.length === 0}
+          disabled={cartItems.length === 0 || missingAddress}
           className="w-full inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-3 rounded-3xl font-semibold transition disabled:cursor-not-allowed disabled:bg-zinc-600"
           type="button"
         >
           Enviar por WhatsApp
         </button>
+        {missingAddress && cartItems.length > 0 && (
+          <p className="mt-2 text-center text-xs text-orange-300">
+            Ingresá una dirección para enviar el pedido.
+          </p>
+        )}
       </div>
     </div>
   )
