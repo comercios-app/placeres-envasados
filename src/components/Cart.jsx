@@ -4,6 +4,8 @@ function Cart({
   onUpdateQuantity,
   onClear,
   total,
+  customerName,
+  onCustomerNameChange,
   orderNotes,
   onOrderNotesChange,
   deliveryMethod,
@@ -17,7 +19,9 @@ function Cart({
   onSendWhatsApp,
 }) {
   const requiresAddress = deliveryMethod === "Envío a domicilio"
+  const missingName = !customerName.trim()
   const missingAddress = requiresAddress && !deliveryAddress.trim()
+  const missingRequiredData = missingName || missingAddress
 
   return (
     <div className="bg-zinc-800 rounded-3xl p-6 shadow-xl border border-zinc-700 sticky top-6">
@@ -89,6 +93,21 @@ function Cart({
           <span>Total</span>
           <span className="text-xl font-bold text-white">${total}</span>
         </div>
+        <label htmlFor="customer-name" className="mb-4 block">
+          <span className="mb-2 block text-sm font-medium text-zinc-200">
+            Nombre:
+          </span>
+          <input
+            id="customer-name"
+            type="text"
+            value={customerName}
+            onChange={(event) => onCustomerNameChange(event.target.value)}
+            placeholder="¿Quién realiza el pedido?"
+            autoComplete="name"
+            required
+            className="w-full rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-500 focus:border-orange-400 focus:outline-none"
+          />
+        </label>
         <label htmlFor="delivery-method" className="mb-4 block">
           <span className="mb-2 block text-sm font-medium text-zinc-200">
             Entrega:
@@ -170,13 +189,18 @@ function Cart({
         </label>
         <button
           onClick={onSendWhatsApp}
-          disabled={cartItems.length === 0 || missingAddress}
+          disabled={cartItems.length === 0 || missingRequiredData}
           className="w-full inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-3 rounded-3xl font-semibold transition duration-150 active:scale-[0.98] active:bg-green-700 disabled:cursor-not-allowed disabled:bg-zinc-600 disabled:active:scale-100"
           type="button"
         >
           Enviar por WhatsApp
         </button>
-        {missingAddress && cartItems.length > 0 && (
+        {missingName && cartItems.length > 0 && (
+          <p className="mt-2 text-center text-xs text-orange-300">
+            Ingresá tu nombre para enviar el pedido.
+          </p>
+        )}
+        {!missingName && missingAddress && cartItems.length > 0 && (
           <p className="mt-2 text-center text-xs text-orange-300">
             Ingresá una dirección para enviar el pedido.
           </p>

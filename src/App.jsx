@@ -9,6 +9,7 @@ import lomitoImg from "./assets/lomito.jpg"
 
 function App() {
   const [cart, setCart] = useState([])
+  const [customerName, setCustomerName] = useState("")
   const [orderNotes, setOrderNotes] = useState("")
   const [deliveryMethod, setDeliveryMethod] = useState("Retiro en el local")
   const [deliveryAddress, setDeliveryAddress] = useState("")
@@ -88,6 +89,7 @@ function App() {
 
   const clearCart = () => {
     setCart([])
+    setCustomerName("")
     setOrderNotes("")
     setDeliveryMethod("Retiro en el local")
     setDeliveryAddress("")
@@ -111,15 +113,18 @@ function App() {
   const handleSendWhatsApp = () => {
     if (cart.length === 0) return
 
+    const name = customerName.trim()
     const notes = orderNotes.trim()
     const address = deliveryAddress.trim()
     const cashPayment = cashAmount.trim()
     const isDelivery = deliveryMethod === "Envío a domicilio"
 
-    if (isDelivery && !address) return
+    if (!name || (isDelivery && !address)) return
 
     const message = [
       "Hola! Quisiera hacer un pedido:",
+      `Nombre: ${name}`,
+      "",
       ...cart.map(
         (item) => `${item.cantidad} x ${item.nombre} - $${item.precio * item.cantidad}`
       ),
@@ -300,6 +305,8 @@ function App() {
               onUpdateQuantity={updateQuantity}
               onClear={clearCart}
               total={total}
+              customerName={customerName}
+              onCustomerNameChange={setCustomerName}
               orderNotes={orderNotes}
               onOrderNotesChange={setOrderNotes}
               deliveryMethod={deliveryMethod}
