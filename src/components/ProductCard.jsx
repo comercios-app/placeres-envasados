@@ -1,4 +1,4 @@
-function ProductCard({ producto, onAdd }) {
+function ProductCard({ producto, onAdd, wasJustAdded }) {
   return (
     <div className="bg-zinc-800 rounded-2xl overflow-hidden shadow-lg border border-zinc-700">
       <img
@@ -24,9 +24,13 @@ function ProductCard({ producto, onAdd }) {
         <button
           onClick={onAdd}
           type="button"
-          className="mt-4 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-xl font-semibold transition"
+          className={`mt-4 w-full rounded-xl py-2 font-semibold text-white transition duration-150 active:scale-95 ${
+            wasJustAdded
+              ? "bg-green-500"
+              : "bg-orange-500 hover:bg-orange-600 active:bg-orange-700"
+          }`}
         >
-          Agregar
+          {wasJustAdded ? "✓ Listo, agregado" : "Agregar"}
         </button>
       </div>
     </div>

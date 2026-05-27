@@ -16,9 +16,11 @@ function App() {
   const [cashAmount, setCashAmount] = useState("")
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [showCartNotifier, setShowCartNotifier] = useState(false)
+  const [recentlyAddedProductId, setRecentlyAddedProductId] = useState(null)
   const [shareFeedback, setShareFeedback] = useState("")
   const cartRef = useRef(null)
   const notificationTimeoutRef = useRef(null)
+  const addedFeedbackTimeoutRef = useRef(null)
   const shareFeedbackTimeoutRef = useRef(null)
 
   const categorias = useMemo(() => {
@@ -45,6 +47,14 @@ function App() {
           : item
       )
     })
+
+    setRecentlyAddedProductId(producto.id)
+    if (addedFeedbackTimeoutRef.current) {
+      clearTimeout(addedFeedbackTimeoutRef.current)
+    }
+    addedFeedbackTimeoutRef.current = setTimeout(() => {
+      setRecentlyAddedProductId(null)
+    }, 1400)
 
     setShowCartNotifier(true)
     if (notificationTimeoutRef.current) {
@@ -83,6 +93,7 @@ function App() {
     setDeliveryAddress("")
     setPaymentMethod("Efectivo")
     setCashAmount("")
+    setRecentlyAddedProductId(null)
   }
 
   const total = cart.reduce(
@@ -171,7 +182,7 @@ function App() {
             type="button"
             onClick={handleShare}
             aria-label="Compartir este menú"
-            className="absolute right-0 top-0 inline-flex h-11 w-11 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-zinc-100 shadow-lg transition hover:border-orange-500 hover:bg-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+            className="absolute right-0 top-0 inline-flex h-11 w-11 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-zinc-100 shadow-lg transition duration-150 hover:border-orange-500 hover:bg-zinc-700 active:scale-90 active:bg-orange-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
           >
             <svg
               aria-hidden="true"
@@ -219,7 +230,7 @@ function App() {
                     key={categoria}
                     type="button"
                     onClick={() => handleCategorySelect(categoria)}
-                    className="group relative overflow-hidden rounded-[2rem] border border-zinc-700 bg-zinc-800 text-left shadow-lg transition hover:-translate-y-1 hover:border-orange-500"
+                    className="group relative overflow-hidden rounded-[2rem] border border-zinc-700 bg-zinc-800 text-left shadow-lg transition duration-150 hover:-translate-y-1 hover:border-orange-500 active:translate-y-0 active:scale-[0.97] active:border-orange-500"
                   >
                     <img
                       src={
@@ -249,7 +260,7 @@ function App() {
                 <button
                   type="button"
                   onClick={() => setSelectedCategory(null)}
-                  className="rounded-full border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-200 hover:bg-zinc-700 transition"
+                  className="rounded-full border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-200 transition duration-150 hover:bg-zinc-700 active:scale-95 active:bg-zinc-700"
                 >
                   ← Volver a categorías
                 </button>
@@ -271,6 +282,7 @@ function App() {
                     key={producto.id}
                     producto={producto}
                     onAdd={() => addToCart(producto)}
+                    wasJustAdded={recentlyAddedProductId === producto.id}
                   />
                 ))}
               </div>
@@ -306,7 +318,7 @@ function App() {
           <button
             type="button"
             onClick={handleScrollToCart}
-            className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-3 rounded-full bg-orange-500 px-4 py-3 text-sm font-semibold text-white shadow-2xl transition hover:bg-orange-600"
+            className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-3 rounded-full bg-orange-500 px-4 py-3 text-sm font-semibold text-white shadow-2xl transition duration-150 hover:bg-orange-600 active:scale-95 active:bg-orange-600"
           >
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-lg">
               🛒

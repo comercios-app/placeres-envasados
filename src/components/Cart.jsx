@@ -28,7 +28,7 @@ function Cart({
         </div>
         <button
           onClick={onClear}
-          className="text-xs text-zinc-300 hover:text-white transition"
+          className="rounded-full px-3 py-2 text-xs text-zinc-300 transition duration-150 hover:bg-zinc-700 hover:text-white active:scale-95 active:bg-zinc-700"
           type="button"
         >
           Limpiar
@@ -53,15 +53,15 @@ function Cart({
                     <button
                       onClick={() => onUpdateQuantity(item.id, -1)}
                       type="button"
-                      className="px-3 py-2 text-white hover:bg-zinc-700 transition"
+                      className="rounded-l-full px-3 py-2 text-white transition duration-150 hover:bg-zinc-700 active:scale-90 active:bg-orange-500"
                     >
                       −
                     </button>
-                    <span className="px-4 text-white font-semibold">{item.cantidad}</span>
+                    <span className="px-4 text-white font-semibold" aria-live="polite">{item.cantidad}</span>
                     <button
                       onClick={() => onUpdateQuantity(item.id, 1)}
                       type="button"
-                      className="px-3 py-2 text-white hover:bg-zinc-700 transition"
+                      className="rounded-r-full px-3 py-2 text-white transition duration-150 hover:bg-zinc-700 active:scale-90 active:bg-orange-500"
                     >
                       +
                     </button>
@@ -71,7 +71,7 @@ function Cart({
                     <p className="text-white font-semibold">${item.precio * item.cantidad}</p>
                     <button
                       onClick={() => onRemove(item.id)}
-                      className="mt-3 text-xs uppercase tracking-[0.2em] text-red-400 hover:text-red-300"
+                      className="mt-3 rounded-full px-2 py-1 text-xs uppercase tracking-[0.2em] text-red-400 transition duration-150 hover:bg-red-500/10 hover:text-red-300 active:scale-95 active:bg-red-500/20"
                       type="button"
                     >
                       Eliminar
@@ -171,7 +171,7 @@ function Cart({
         <button
           onClick={onSendWhatsApp}
           disabled={cartItems.length === 0 || missingAddress}
-          className="w-full inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-3 rounded-3xl font-semibold transition disabled:cursor-not-allowed disabled:bg-zinc-600"
+          className="w-full inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-3 rounded-3xl font-semibold transition duration-150 active:scale-[0.98] active:bg-green-700 disabled:cursor-not-allowed disabled:bg-zinc-600 disabled:active:scale-100"
           type="button"
         >
           Enviar por WhatsApp
