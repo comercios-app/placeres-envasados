@@ -155,8 +155,8 @@ function App() {
 
   const handleShare = async () => {
     const shareData = {
-      title: "Doña Carmen",
-      text: "Mirá el menú de Doña Carmen",
+      title: "Placeres Envasados",
+      text: "Mirá el catálogo de Placeres Envasados",
       url: window.location.href,
     }
 
@@ -207,10 +207,10 @@ function App() {
           </button>
           <div className="inline-flex flex-col items-center gap-3">
             <h1 className="text-4xl font-bold text-white">
-              Doña Carmen
+              Placeres Envasados
             </h1>
             <p className="text-zinc-300 max-w-xl">
-              Pedidos rápidos y caseros para disfrutar lo mejor de la cocina de Doña Carmen, directo a tu mesa con WhatsApp.
+              Pedidos rápidos para disfrutar productos envasados de Placeres Envasados, directo a tu mesa con WhatsApp.
             </p>
           </div>
           {shareFeedback && (
