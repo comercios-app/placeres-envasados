@@ -3,7 +3,6 @@ import { useMemo, useRef, useState } from "react"
 import Cart from "./components/Cart"
 import ProductCard from "./components/ProductCard"
 import { categorias, productos } from "./data/productos"
-import heroImg from "./assets/placeres-hero.png"
 import logoImg from "./assets/placeres-logo.jpeg"
 
 // const WHATSAPP_NUMBER = "5493513200735" // Activar al publicar la recepción de pedidos.
@@ -182,20 +181,14 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#12080b] text-white">
-      <div className="max-w-7xl mx-auto">
-        <header className="relative overflow-hidden rounded-b-[2rem] border-x border-b border-[#d6b36a]/20 bg-[#1a0d12] px-5 pb-10 pt-16 text-center shadow-2xl shadow-black/40 sm:px-8 sm:pt-8">
-          <img
-            src={heroImg}
-            alt="Vinos, fiambres y productos gourmet de Placeres Envasados"
-            className="absolute inset-0 h-full w-full object-cover opacity-35"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#12080b]/30 via-[#12080b]/75 to-[#12080b]" />
+    <div className="min-h-screen bg-[#fff7ed] text-[#2f2218]">
+      <div className="mx-auto max-w-7xl">
+        <header className="relative overflow-hidden rounded-b-3xl border-x border-b border-orange-200 bg-[#fffdf7] px-5 pb-10 pt-16 text-center shadow-xl shadow-orange-900/10 sm:px-8 sm:pt-8">
           <button
             type="button"
             onClick={handleShare}
             aria-label="Compartir este menú"
-            className="absolute right-5 top-5 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#d6b36a]/30 bg-black/45 text-[#f7ead2] shadow-lg backdrop-blur transition duration-150 hover:border-[#d6b36a] hover:bg-black/65 active:scale-90 active:bg-[#7b1f35] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d6b36a]"
+            className="absolute right-5 top-5 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#e7b8ad] bg-white text-[#b53632] shadow-lg transition duration-150 hover:border-[#b53632] hover:bg-[#fff1ee] active:scale-90 active:bg-[#f8ded8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b53632]"
           >
             <svg
               aria-hidden="true"
@@ -214,16 +207,18 @@ function App() {
             </svg>
           </button>
           <div className="relative z-10 inline-flex max-w-3xl flex-col items-center gap-4">
-            <p className="rounded-full border border-[#d6b36a]/30 bg-black/35 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#d6b36a]">
-              Vinos, fiambres, picadas y productos gourmet
-            </p>
+            <div className="flex flex-wrap justify-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#b53632] sm:text-sm">
+              <span className="rounded-full border border-[#e7b8ad] bg-[#fff1ee] px-3 py-2">BEBIDAS EN GENERAL</span>
+              <span className="rounded-full border border-[#e7b8ad] bg-[#fff1ee] px-3 py-2">PICADAS y PASTAS POLIDORI</span>
+              <span className="rounded-full border border-[#e7b8ad] bg-[#fff1ee] px-3 py-2">ALMACEN DE SABORES</span>
+            </div>
             <h1 className="sr-only">Placeres Envasados</h1>
             <img
               src={logoImg}
               alt="Placeres Envasados"
-              className="h-36 w-36 rounded-full border border-[#d6b36a]/30 bg-white object-cover shadow-2xl shadow-black/40 sm:h-48 sm:w-48"
+              className="h-36 w-36 rounded-full border-4 border-white bg-white object-cover shadow-xl shadow-orange-900/15 sm:h-48 sm:w-48"
             />
-            <p className="max-w-2xl text-lg text-[#f7ead2]">
+            <p className="max-w-2xl text-lg font-medium text-[#6b3f24]">
               Armá tu pedido y envialo por WhatsApp.
             </p>
           </div>
@@ -250,16 +245,16 @@ function App() {
                     key={categoria.nombre}
                     type="button"
                     onClick={() => handleCategorySelect(categoria.nombre)}
-                    className="group relative min-h-56 overflow-hidden rounded-2xl border border-[#d6b36a]/20 bg-[#211016] text-left shadow-lg transition duration-150 hover:-translate-y-1 hover:border-[#d6b36a] active:translate-y-0 active:scale-[0.97]"
+                    className="group relative min-h-56 overflow-hidden rounded-2xl border border-orange-200 bg-white text-left shadow-md shadow-orange-900/10 transition duration-150 hover:-translate-y-1 hover:border-[#b53632] active:translate-y-0 active:scale-[0.97]"
                   >
                     <img
                       src={categoria.imagen}
                       alt={categoria.nombre}
                       className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#12080b] via-[#12080b]/35 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-5">
-                      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#d6b36a]">
+                      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-orange-200">
                         {productCount} {productCount === 1 ? "producto" : "productos"}
                       </p>
                       <h2 className="text-xl font-bold leading-tight text-white">
@@ -276,13 +271,13 @@ function App() {
                 <button
                   type="button"
                   onClick={() => setSelectedCategory(null)}
-                  className="rounded-full border border-[#d6b36a]/20 bg-[#211016] px-4 py-2 text-sm font-semibold text-[#f7ead2] transition duration-150 hover:border-[#d6b36a] hover:bg-[#2b121b] active:scale-95"
+                  className="rounded-full border border-[#e7b8ad] bg-white px-4 py-2 text-sm font-semibold text-[#b53632] shadow-sm transition duration-150 hover:border-[#b53632] hover:bg-[#fff1ee] active:scale-95"
                 >
                   ← Volver a categorías
                 </button>
-                <h2 className="text-3xl font-bold text-white">{selectedCategory}</h2>
+                <h2 className="text-3xl font-bold text-[#2f2218]">{selectedCategory}</h2>
               </div>
-              <p className="max-w-2xl text-[#d8c7aa]">
+              <p className="max-w-2xl text-[#7c5b43]">
                 Elegí tus productos favoritos y sumalos al carrito.
               </p>
             </div>
@@ -304,12 +299,12 @@ function App() {
                   ))}
                 </div>
               ) : (
-                <div className="rounded-2xl border border-dashed border-[#d6b36a]/20 bg-[#180b10]/80 p-12 text-center text-[#d8c7aa]">
+                <div className="rounded-2xl border border-dashed border-orange-300 bg-white p-12 text-center text-[#7c5b43]">
                   Todavía no hay productos cargados en esta categoría.
                 </div>
               )
             ) : (
-              <div className="rounded-2xl border border-dashed border-[#d6b36a]/20 bg-[#180b10]/80 p-12 text-center text-[#d8c7aa]">
+              <div className="rounded-2xl border border-dashed border-orange-300 bg-white p-12 text-center text-[#7c5b43]">
                 Seleccioná una categoría para ver sus productos.
               </div>
             )}
@@ -342,7 +337,7 @@ function App() {
           <button
             type="button"
             onClick={handleScrollToCart}
-            className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-3 rounded-full bg-[#7b1f35] px-4 py-3 text-sm font-semibold text-white shadow-2xl transition duration-150 hover:bg-[#96304a] active:scale-95"
+            className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-3 rounded-full bg-[#b53632] px-4 py-3 text-sm font-semibold text-white shadow-2xl transition duration-150 hover:bg-[#9f2e2d] active:scale-95"
           >
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-lg">
               🛒

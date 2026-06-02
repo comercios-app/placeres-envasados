@@ -1,16 +1,20 @@
-import bebidasSinAlcoholImg from "../assets/categoria-bebidas-sin-alcohol.png"
-import vinosImg from "../assets/categoria-vinos.png"
-import cervezasImg from "../assets/categoria-cervezas.png"
-import aperitivosDestiladosImg from "../assets/categoria-aperitivos-destilados.png"
-import promoPreviasImg from "../assets/categoria-promo-previas.png"
-import picadasImg from "../assets/categoria-picadas-v2.png"
-import fiambresQuesosImg from "../assets/categoria-fiambres-quesos.png"
-import pastasPolidoriImg from "../assets/categoria-pastas-polidori.png"
-import chocolatesLicoresImg from "../assets/categoria-chocolates-licores.png"
-import delicatessensImg from "../assets/categoria-delicatessens.png"
-import regaleriaImg from "../assets/categoria-regaleria.png"
-import tabacosImg from "../assets/categoria-tabacos.png"
-import otrosProductosImg from "../assets/categoria-otros-productos.png"
+import picadasImg from "../assets/categoria-picadas-local.jpeg"
+import bebidasSinAlcoholImg from "../assets/categoria-bebidas-sin-alcohol-local.webp"
+import aperitivosDestiladosImg from "../assets/categoria-aperitivos-destilados-local.jpg"
+import vinosImg from "../assets/categoria-vinos-local.jpg"
+import regaleriaImg from "../assets/categoria-regaleria-local.jpg"
+import cervezasImg from "../assets/categoria-cervezas-local.png"
+import chocolatesLicoresImg from "../assets/categoria-chocolates-licores-local.jpg"
+import fiambresQuesosImg from "../assets/categoria-fiambres-quesos-local.jpg"
+import tabacosImg from "../assets/categoria-tabacos-local.png"
+import pastasPolidoriImg from "../assets/categoria-pastas-polidori-local.jpg"
+import delicatessensImg from "../assets/categoria-delicatessens-local.jpg"
+import otrosProductosImg from "../assets/categoria-otros-productos-local.jpg"
+import promoPreviasImg from "../assets/categoria-promo-previas-local.jpg"
+
+const imageUrl = (query) =>
+  `https://loremflickr.com/900/650/${encodeURIComponent(query)}`
+
 
 export const categorias = [
   { nombre: "BEBIDAS SIN ALCOHOL", imagen: bebidasSinAlcoholImg },
