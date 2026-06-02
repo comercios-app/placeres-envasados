@@ -183,7 +183,7 @@ function App() {
   return (
     <div className="min-h-screen bg-[#fff7ed] text-[#2f2218]">
       <div className="mx-auto max-w-7xl">
-        <header className="relative overflow-hidden rounded-b-3xl border-x border-b border-orange-200 bg-[#fffdf7] px-5 pb-10 pt-16 text-center shadow-xl shadow-orange-900/10 sm:px-8 sm:pt-8">
+        <header className="relative overflow-hidden rounded-b-3xl border-x border-b border-orange-200 bg-[#fffdf7] px-4 pb-5 pt-12 text-center shadow-xl shadow-orange-900/10 sm:px-8 sm:pb-10 sm:pt-8">
           <button
             type="button"
             onClick={handleShare}
@@ -206,19 +206,21 @@ function App() {
               <path d="m8.7 10.7 6.6-4.1M8.7 13.3l6.6 4.1" />
             </svg>
           </button>
-          <div className="relative z-10 inline-flex max-w-3xl flex-col items-center gap-4">
-            <div className="flex flex-wrap justify-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#b53632] sm:text-sm">
-              <span className="rounded-full border border-[#e7b8ad] bg-[#fff1ee] px-3 py-2">BEBIDAS EN GENERAL</span>
-              <span className="rounded-full border border-[#e7b8ad] bg-[#fff1ee] px-3 py-2">PICADAS y PASTAS POLIDORI</span>
-              <span className="rounded-full border border-[#e7b8ad] bg-[#fff1ee] px-3 py-2">ALMACEN DE SABORES</span>
+          <div className="relative z-10 inline-flex max-w-3xl flex-col items-center gap-2 sm:gap-4">
+            <div className="flex max-w-xs flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[0.66rem] font-bold uppercase leading-snug tracking-[0.12em] text-[#b53632] sm:max-w-none sm:text-sm sm:tracking-[0.16em]">
+              <span>BEBIDAS EN GENERAL</span>
+              <span className="text-[#d8a69d]">•</span>
+              <span>PICADAS y PASTAS POLIDORI</span>
+              <span className="text-[#d8a69d]">•</span>
+              <span>ALMACEN DE SABORES</span>
             </div>
             <h1 className="sr-only">Placeres Envasados</h1>
             <img
               src={logoImg}
               alt="Placeres Envasados"
-              className="h-36 w-36 rounded-full border-4 border-white bg-white object-cover shadow-xl shadow-orange-900/15 sm:h-48 sm:w-48"
+              className="h-28 w-28 rounded-full border-4 border-white bg-white object-cover shadow-xl shadow-orange-900/15 sm:h-48 sm:w-48"
             />
-            <p className="max-w-2xl text-lg font-medium text-[#6b3f24]">
+            <p className="max-w-2xl text-sm font-medium leading-snug text-[#6b3f24] sm:text-lg">
               Armá tu pedido y envialo por WhatsApp.
             </p>
           </div>
