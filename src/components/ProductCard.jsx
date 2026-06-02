@@ -1,14 +1,20 @@
-function ProductCard({ producto, categoria, onAdd, wasJustAdded }) {
+function ProductCard({ producto, onAdd, wasJustAdded }) {
   const formattedPrice = new Intl.NumberFormat("es-AR").format(producto.precio)
 
   return (
     <div className="overflow-hidden rounded-2xl border border-[#d6b36a]/20 bg-[#211016] shadow-lg shadow-black/25">
-      <div className="relative h-36 border-b border-[#d6b36a]/10 bg-gradient-to-br from-[#4c1424] via-[#211016] to-black">
-        <div className="absolute inset-0 opacity-70 [background-image:radial-gradient(circle_at_25%_20%,rgba(214,179,106,0.24),transparent_28%),radial-gradient(circle_at_80%_85%,rgba(123,31,53,0.45),transparent_34%)]" />
-        <div className="relative flex h-full flex-col justify-between p-4">
-          <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-[#d6b36a]/20 bg-black/25 text-3xl">
-            {categoria?.icono ?? "•"}
-          </span>
+      <div className="relative h-40 border-b border-[#d6b36a]/10 bg-gradient-to-br from-[#4c1424] via-[#211016] to-black">
+        {producto.imagen ? (
+          <img
+            src={producto.imagen}
+            alt={producto.nombre}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 opacity-70 [background-image:radial-gradient(circle_at_25%_20%,rgba(214,179,106,0.24),transparent_28%),radial-gradient(circle_at_80%_85%,rgba(123,31,53,0.45),transparent_34%)]" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 flex items-end p-4">
           <span className="w-fit rounded-full border border-[#d6b36a]/20 bg-black/30 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#d6b36a]">
             {producto.categoria}
           </span>

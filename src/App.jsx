@@ -4,6 +4,7 @@ import Cart from "./components/Cart"
 import ProductCard from "./components/ProductCard"
 import { categorias, productos } from "./data/productos"
 import heroImg from "./assets/placeres-hero.png"
+import logoImg from "./assets/placeres-logo.jpeg"
 
 // const WHATSAPP_NUMBER = "5493513200735" // Activar al publicar la recepción de pedidos.
 
@@ -27,8 +28,7 @@ function App() {
   const shareFeedbackTimeoutRef = useRef(null)
 
   const categoriasMenu = useMemo(() => {
-    const availableCategories = new Set(productos.map((producto) => producto.categoria))
-    return categorias.filter((categoria) => availableCategories.has(categoria.nombre))
+    return categorias
   }, [])
 
   const filteredProducts = useMemo(() => {
@@ -217,9 +217,12 @@ function App() {
             <p className="rounded-full border border-[#d6b36a]/30 bg-black/35 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#d6b36a]">
               Vinos, fiambres, picadas y productos gourmet
             </p>
-            <h1 className="text-4xl font-bold text-white sm:text-6xl">
-              Placeres Envasados
-            </h1>
+            <h1 className="sr-only">Placeres Envasados</h1>
+            <img
+              src={logoImg}
+              alt="Placeres Envasados"
+              className="h-36 w-36 rounded-full border border-[#d6b36a]/30 bg-white object-cover shadow-2xl shadow-black/40 sm:h-48 sm:w-48"
+            />
             <p className="max-w-2xl text-lg text-[#f7ead2]">
               Armá tu pedido y envialo por WhatsApp.
             </p>
@@ -247,20 +250,21 @@ function App() {
                     key={categoria.nombre}
                     type="button"
                     onClick={() => handleCategorySelect(categoria.nombre)}
-                    className="group relative min-h-44 overflow-hidden rounded-2xl border border-[#d6b36a]/20 bg-[#211016] p-5 text-left shadow-lg transition duration-150 hover:-translate-y-1 hover:border-[#d6b36a] hover:bg-[#2b121b] active:translate-y-0 active:scale-[0.97]"
+                    className="group relative min-h-56 overflow-hidden rounded-2xl border border-[#d6b36a]/20 bg-[#211016] text-left shadow-lg transition duration-150 hover:-translate-y-1 hover:border-[#d6b36a] active:translate-y-0 active:scale-[0.97]"
                   >
-                    <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-[#7b1f35]/40 blur-2xl" />
-                    <div className="relative">
-                      <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-[#d6b36a]/20 bg-black/25 text-3xl">
-                        {categoria.icono}
-                      </span>
-                      <h2 className="text-xl font-bold text-white">
+                    <img
+                      src={categoria.imagen}
+                      alt={categoria.nombre}
+                      className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#12080b] via-[#12080b]/35 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 p-5">
+                      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#d6b36a]">
+                        {productCount} {productCount === 1 ? "producto" : "productos"}
+                      </p>
+                      <h2 className="text-xl font-bold leading-tight text-white">
                         {categoria.nombre}
                       </h2>
-                      <p className="mt-2 text-sm text-[#d8c7aa]">{categoria.descripcion}</p>
-                      <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-[#d6b36a]">
-                        {productCount} productos
-                      </p>
                     </div>
                   </button>
                 )
@@ -288,17 +292,22 @@ function App() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.5fr_0.9fr]">
           <div>
             {selectedCategory ? (
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-                {filteredProducts.map((producto) => (
-                  <ProductCard
-                    key={producto.id}
-                    producto={producto}
-                    categoria={categorias.find((item) => item.nombre === producto.categoria)}
-                    onAdd={() => addToCart(producto)}
-                    wasJustAdded={recentlyAddedProductId === producto.id}
-                  />
-                ))}
-              </div>
+              filteredProducts.length > 0 ? (
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+                  {filteredProducts.map((producto) => (
+                    <ProductCard
+                      key={producto.id}
+                      producto={producto}
+                      onAdd={() => addToCart(producto)}
+                      wasJustAdded={recentlyAddedProductId === producto.id}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="rounded-2xl border border-dashed border-[#d6b36a]/20 bg-[#180b10]/80 p-12 text-center text-[#d8c7aa]">
+                  Todavía no hay productos cargados en esta categoría.
+                </div>
+              )
             ) : (
               <div className="rounded-2xl border border-dashed border-[#d6b36a]/20 bg-[#180b10]/80 p-12 text-center text-[#d8c7aa]">
                 Seleccioná una categoría para ver sus productos.
