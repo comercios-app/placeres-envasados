@@ -207,7 +207,7 @@ function App() {
             </svg>
           </button>
           <div className="relative z-10 inline-flex max-w-3xl flex-col items-center gap-2 sm:gap-4">
-            <div className="flex max-w-xs flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[0.66rem] font-bold uppercase leading-snug tracking-[0.12em] text-[#b53632] sm:max-w-none sm:text-sm sm:tracking-[0.16em]">
+            <div className="flex max-w-[13.5rem] flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[0.6rem] font-bold uppercase leading-snug tracking-[0.12em] text-[#b53632] sm:max-w-none sm:text-[0.8rem] sm:tracking-[0.16em]">
               <span>BEBIDAS EN GENERAL</span>
               <span className="text-[#d8a69d]">•</span>
               <span>PICADAS y PASTAS POLIDORI</span>
@@ -218,7 +218,7 @@ function App() {
             <img
               src={logoImg}
               alt="Placeres Envasados"
-              className="h-28 w-28 rounded-full border-4 border-white bg-white object-cover shadow-xl shadow-orange-900/15 sm:h-48 sm:w-48"
+              className="h-32 w-32 rounded-full border-4 border-white bg-white object-cover shadow-xl shadow-orange-900/15 sm:h-52 sm:w-52"
             />
             <p className="max-w-2xl text-sm font-medium leading-snug text-[#6b3f24] sm:text-lg">
               Armá tu pedido y envialo por WhatsApp.
