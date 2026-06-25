@@ -17,6 +17,7 @@ import picadaEspecial45Img from "../assets/picada-especial-4-5.jpeg"
 import picadaEspecial56Img from "../assets/picada-especial-5-6.jpeg"
 import picadaEsencial3Img from "../assets/picada-esencial-3.jpeg"
 import picadaEsencial45Img from "../assets/picada-esencial-4-5.jpeg"
+import picadaQuesos45Img from "../assets/picada-quesos-4-5.jpeg"
 
 export const categorias = [
   { nombre: "PICADAS", imagen: picadasImg },
@@ -202,7 +203,7 @@ export const productos = [
     subtitulo: "Comen 2 o 3. Bandeja de 30 cm.",
     precio: 38000,
     categoria: "PICADAS",
-    imagen: picadasImg,
+    imagen: picadaQuesos45Img,
     detalle: [
       "Surtido de quesos",
       "Aceitunas verdes, griegas y rellenas con morron",
