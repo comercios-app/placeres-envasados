@@ -11,6 +11,12 @@ import pastasPolidoriImg from "../assets/categoria-pastas-polidori-local.jpg"
 import delicatessensImg from "../assets/categoria-delicatessens-local.jpg"
 import otrosProductosImg from "../assets/categoria-otros-productos-local.jpg"
 import promoPreviasImg from "../assets/categoria-promo-previas-local.jpg"
+import picadaEspecial2Img from "../assets/picada-especial-2.jpeg"
+import picadaEspecial3Img from "../assets/picada-especial-3.jpeg"
+import picadaEspecial45Img from "../assets/picada-especial-4-5.jpeg"
+import picadaEspecial56Img from "../assets/picada-especial-5-6.jpeg"
+import picadaEsencial3Img from "../assets/picada-esencial-3.jpeg"
+import picadaEsencial45Img from "../assets/picada-esencial-4-5.jpeg"
 
 export const categorias = [
   { nombre: "PICADAS", imagen: picadasImg },
@@ -75,4 +81,134 @@ export const productos = [
 
   { id: 39, nombre: "HIELO 1,5KG", precio: 3000, categoria: "OTROS PRODUCTOS..", imagen: otrosProductosImg },
   { id: 40, nombre: "CARBON QUEBRACHO BLANCO 4kg", precio: 4500, categoria: "OTROS PRODUCTOS..", imagen: otrosProductosImg },
+
+  {
+    id: 41,
+    nombre: "Picada Especial de Placeres para 2",
+    subtitulo: "Come 1, pican 2. Bandeja de 25 cm.",
+    precio: 24000,
+    categoria: "PICADAS",
+    imagen: picadaEspecial2Img,
+    detalle: [
+      "Salame y bondiola Don Ramon de Oncativo",
+      "Queso pategras",
+      "Queso ahumado saborizado",
+      "Mix de olivas",
+      "Berenjenas condimentadas al aceite",
+      "Touch de frutos secos",
+      "Pan casero mediano",
+      "Papas snack",
+    ],
+  },
+  {
+    id: 42,
+    nombre: "Picada Especial de Placeres para 3",
+    subtitulo: "Pican 3, o comen 1 o 2. Bandeja de 25 cm.",
+    precio: 29000,
+    categoria: "PICADAS",
+    imagen: picadaEspecial3Img,
+    detalle: [
+      "Salame y bondiola Don Ramon de Oncativo",
+      "Queso pategras",
+      "Queso ahumado saborizado",
+      "Mix de olivas",
+      "Berenjenas condimentadas al aceite",
+      "Touch de frutos secos",
+      "Pan casero grande",
+      "Papas snack",
+      "Mani saborizado o salado",
+    ],
+  },
+  {
+    id: 43,
+    nombre: "Picada Especial de Placeres para 4/5",
+    subtitulo: "Comen 2 o 3. Bandeja de 30 cm.",
+    precio: 39000,
+    categoria: "PICADAS",
+    imagen: picadaEspecial45Img,
+    detalle: [
+      "Salame y bondiola de Oncativo",
+      "Quesos pategras y ahumado saborizado",
+      "Mix de olivas verdes y griegas negras",
+      "Berenjenas condimentadas al aceite",
+      "Touch de frutos secos",
+      "Pan casero grande",
+      "Papas snack",
+      "Mani saborizado o salado",
+    ],
+  },
+  {
+    id: 44,
+    nombre: "Picada Especial de Placeres para 5/6",
+    subtitulo: "Pican 5 o 6, o comen 3 o 4. Bandeja de 40 x 30 cm.",
+    precio: 52000,
+    categoria: "PICADAS",
+    imagen: picadaEspecial56Img,
+    detalle: [
+      "Salame, bondiola y lomito ahumado Don Ramon",
+      "Quesos ahumados y saborizados",
+      "Queso pategras y queso azul",
+      "Mix de olivas verdes, griegas y con morrones",
+      "Berenjenas condimentadas",
+      "Touch de frutos secos",
+      "Pan casero grande",
+      "Papas snack",
+      "Mani salado o saborizado",
+    ],
+  },
+  {
+    id: 45,
+    nombre: "Picada Esencial de Placeres para 3",
+    subtitulo: "Come 1, pican 2 o 3. Bandeja de 25 cm.",
+    precio: 25000,
+    categoria: "PICADAS",
+    imagen: picadaEsencial3Img,
+    detalle: [
+      "Salame colonial",
+      "Bondiola Don Ramon Oncativo",
+      "Queso pategras",
+      "Queso azul",
+      "Mini sandwiches de miga de jamon cocido y queso",
+      "Touch de berenjenas condimentadas al aceite",
+      "Mix de olivas verdes, negras y con morrones",
+      "Pan casero mediano",
+      "Papas snack",
+      "Mani saborizado o salado",
+    ],
+  },
+  {
+    id: 46,
+    nombre: "Picada Esencial de Placeres para 4/5",
+    subtitulo: "Comen 2 o 3, pican 4 o 5. Bandeja de 30 cm.",
+    precio: 33000,
+    categoria: "PICADAS",
+    imagen: picadaEsencial45Img,
+    detalle: [
+      "Salame colonial",
+      "Bondiola Don Ramon Oncativo",
+      "Queso pategras",
+      "Queso azul",
+      "Mini sandwiches de miga de jamon cocido y queso",
+      "Touch de berenjenas condimentadas al aceite",
+      "Mix de olivas verdes, negras y con morrones",
+      "Pan casero grande",
+      "Papas snack",
+      "Mani saborizado o salado",
+    ],
+  },
+  {
+    id: 47,
+    nombre: "Picada de Quesos para 4/5",
+    subtitulo: "Comen 2 o 3. Bandeja de 30 cm.",
+    precio: 38000,
+    categoria: "PICADAS",
+    imagen: picadasImg,
+    detalle: [
+      "Surtido de quesos",
+      "Aceitunas verdes, griegas y rellenas con morron",
+      "Berenjenas condimentadas al aceite",
+      "Pan casero grande",
+      "Papas snack",
+    ],
+  },
 ]
