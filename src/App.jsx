@@ -5,7 +5,7 @@ import ProductCard from "./components/ProductCard"
 import { categorias, productos } from "./data/productos"
 import logoImg from "./assets/placeres-logo.jpeg"
 
-// const WHATSAPP_NUMBER = "5493513200735" // Activar al publicar la recepción de pedidos.
+const WHATSAPP_NUMBER = "5493515435114"
 
 const formatPrice = (value) => new Intl.NumberFormat("es-AR").format(value)
 
@@ -141,7 +141,7 @@ function App() {
     ].join("\n")
 
     const encodedMessage = encodeURIComponent(message)
-    window.open(`https://wa.me/?text=${encodedMessage}`, "_blank")
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, "_blank")
   }
 
   const showShareFeedback = (message) => {
