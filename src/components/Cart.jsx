@@ -17,6 +17,7 @@ function Cart({
   cashAmount,
   onCashAmountChange,
   onSendWhatsApp,
+  sending = false,
 }) {
   const requiresAddress = deliveryMethod === "Envío a domicilio"
   const missingName = !customerName.trim()
@@ -190,7 +191,7 @@ function Cart({
         </label>
         <button
           onClick={onSendWhatsApp}
-          disabled={cartItems.length === 0 || missingRequiredData}
+          disabled={sending || cartItems.length === 0 || missingRequiredData}
           className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 py-3 font-semibold text-white transition duration-150 hover:bg-emerald-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-stone-300 disabled:text-stone-500 disabled:active:scale-100"
           type="button"
         >

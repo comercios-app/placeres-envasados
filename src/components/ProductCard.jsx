@@ -40,8 +40,8 @@ function ProductCard({ producto, onAdd, wasJustAdded }) {
               Ver detalle
             </summary>
             <ul className="max-h-36 space-y-1 overflow-y-auto border-t border-orange-100 px-4 py-3">
-              {producto.detalle.map((item) => (
-                <li key={item} className="leading-snug">
+              {producto.detalle.map((item, index) => (
+                <li key={index} className="leading-snug">
                   {item}
                 </li>
               ))}

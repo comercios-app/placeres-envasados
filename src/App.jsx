@@ -1,8 +1,10 @@
-import { useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 import Cart from "./components/Cart"
 import ProductCard from "./components/ProductCard"
-import { categorias, productos } from "./data/productos"
+import { categorias as initialCategories, productos as initialProducts } from "./data/productos"
+import { catalogEnabled, fetchCatalog } from "./lib/supabase"
+import { reconcileCart } from "./lib/prices"
 import logoImg from "./assets/placeres-logo.jpeg"
 
 const WHATSAPP_NUMBER = "5493515435114"
@@ -10,6 +12,13 @@ const WHATSAPP_NUMBER = "5493515435114"
 const formatPrice = (value) => new Intl.NumberFormat("es-AR").format(value)
 
 function App() {
+  const [catalog, setCatalog] = useState({ products: catalogEnabled ? [] : initialProducts, categories: catalogEnabled ? [] : initialCategories })
+  const [catalogLoading, setCatalogLoading] = useState(catalogEnabled)
+  const [catalogError, setCatalogError] = useState('')
+  const [orderMessage, setOrderMessage] = useState('')
+  const [sending, setSending] = useState(false)
+  const sendingRef = useRef(false)
+  const productos = catalog.products
   const [cart, setCart] = useState([])
   const [customerName, setCustomerName] = useState("")
   const [orderNotes, setOrderNotes] = useState("")
@@ -17,7 +26,7 @@ function App() {
   const [deliveryAddress, setDeliveryAddress] = useState("")
   const [paymentMethod, setPaymentMethod] = useState("Efectivo")
   const [cashAmount, setCashAmount] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState(null)
+  const [requestedCategory, setSelectedCategory] = useState(null)
   const [showCartNotifier, setShowCartNotifier] = useState(false)
   const [recentlyAddedProductId, setRecentlyAddedProductId] = useState(null)
   const [shareFeedback, setShareFeedback] = useState("")
@@ -26,14 +35,33 @@ function App() {
   const addedFeedbackTimeoutRef = useRef(null)
   const shareFeedbackTimeoutRef = useRef(null)
 
-  const categoriasMenu = useMemo(() => {
-    return categorias
+  const categoriasMenu = useMemo(() => catalogEnabled
+    ? catalog.categories.filter(category => productos.some(p => p.categoryId === category.id))
+    : catalog.categories, [catalog, productos])
+
+  async function reloadCatalog() {
+    setCatalogLoading(true)
+    setCatalogError('')
+    try { setCatalog(await fetchCatalog()) }
+    catch (error) { setCatalogError(error.message) }
+    finally { setCatalogLoading(false) }
+  }
+
+  useEffect(() => {
+    if (!catalogEnabled) return
+    let active = true
+    fetchCatalog().then(data => { if (active) setCatalog(data) })
+      .catch(error => { if (active) setCatalogError(error.message) })
+      .finally(() => { if (active) setCatalogLoading(false) })
+    return () => { active = false }
   }, [])
+
+  const selectedCategory = categoriasMenu.some(c => c.nombre === requestedCategory) ? requestedCategory : null
 
   const filteredProducts = useMemo(() => {
     if (!selectedCategory) return []
     return productos.filter((producto) => producto.categoria === selectedCategory)
-  }, [selectedCategory])
+  }, [selectedCategory, productos])
 
   const addToCart = (producto) => {
     setCart((prev) => {
@@ -109,8 +137,8 @@ function App() {
     }
   }
 
-  const handleSendWhatsApp = () => {
-    if (cart.length === 0) return
+  const handleSendWhatsApp = async () => {
+    if (cart.length === 0 || sendingRef.current) return
 
     const name = customerName.trim()
     const notes = orderNotes.trim()
@@ -120,12 +148,32 @@ function App() {
 
     if (!name || (isDelivery && !address)) return
 
+    sendingRef.current = true
+    setSending(true)
+    setOrderMessage('')
+    try {
+    let orderCart = cart
+    if (catalogEnabled) {
+      const fresh = await fetchCatalog()
+      setCatalog(fresh)
+      const updated = reconcileCart(cart, fresh.products)
+      setCart(updated.items)
+      if (updated.changed) {
+        setOrderMessage(updated.removed.length
+          ? 'Quitamos productos que ya no están disponibles. Revisá el pedido antes de enviarlo.'
+          : 'Se actualizaron productos o precios. Revisá el pedido y volvé a enviarlo.')
+        return
+      }
+      orderCart = updated.items
+    }
+    const orderTotal = orderCart.reduce((sum, item) => sum + item.precio * item.cantidad, 0)
+
     const message = [
       "Hola, quiero realizar el siguiente pedido:",
       "",
       `Nombre: ${name}`,
       "",
-      ...cart.map(
+      ...orderCart.map(
         (item) => `* ${item.nombre} x ${item.cantidad}`
       ),
       "",
@@ -135,13 +183,15 @@ function App() {
       ...(paymentMethod === "Efectivo" && cashPayment ? [`Abono con: $${cashPayment}`] : []),
       ...(notes ? [`Aclaraciones: ${notes}`] : []),
       "",
-      `Total: $${formatPrice(total)}`,
+      `Total: $${formatPrice(orderTotal)}`,
       "",
       "Muchas gracias."
     ].join("\n")
 
     const encodedMessage = encodeURIComponent(message)
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, "_blank")
+    window.location.assign(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`)
+    } catch (error) { setOrderMessage(`${error.message} No se envió el pedido.`) }
+    finally { sendingRef.current = false; setSending(false) }
   }
 
   const showShareFeedback = (message) => {
@@ -235,6 +285,9 @@ function App() {
         </header>
 
         <main className="px-5 py-8 sm:px-6">
+        {catalogLoading && <p role="status" className="mb-5">Cargando catálogo actualizado…</p>}
+        {catalogError && <div role="alert" className="mb-5 rounded-xl border border-orange-300 bg-white p-4"><p>{catalogError}</p><button type="button" className="mt-3 underline" onClick={reloadCatalog} disabled={catalogLoading}>Reintentar</button></div>}
+        {!catalogLoading && !catalogError && !productos.length && <p className="mb-5">Por el momento no hay productos disponibles.</p>}
         <div className="mb-8">
           {!selectedCategory ? (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -313,6 +366,8 @@ function App() {
           </div>
 
           <div ref={cartRef}>
+            {orderMessage && <p role="alert" className="mb-4 rounded-xl border border-orange-300 bg-white p-4">{orderMessage}</p>}
+            {sending && <p role="status">Verificando el pedido…</p>}
             <Cart
               cartItems={cart}
               onRemove={removeFromCart}
@@ -332,6 +387,7 @@ function App() {
               cashAmount={cashAmount}
               onCashAmountChange={setCashAmount}
               onSendWhatsApp={handleSendWhatsApp}
+              sending={sending}
             />
           </div>
         </div>
@@ -347,6 +403,7 @@ function App() {
             <span className="whitespace-nowrap">Agregado al carrito. Ver resumen ↓</span>
           </button>
         )}
+        <footer className="mt-8 text-center"><a className="text-[#b53632] underline" href="#/admin">Administración</a></footer>
         </main>
       </div>
     </div>
